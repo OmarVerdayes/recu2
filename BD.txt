@@ -1,0 +1,62 @@
+CREATE SCHEMA `recu2` ;
+USE recu2;
+
+CREATE TABLE `docente` (
+  `iddocente` INT NOT NULL,
+  `nombre` VARCHAR(45) NULL,
+  `apellidos` VARCHAR(45) NULL,
+  `fechaN` DATE NULL,
+  `curp` VARCHAR(45) NULL,
+  `numeroEmp` VARCHAR(45) NULL,
+  PRIMARY KEY (`iddocente`),
+  UNIQUE INDEX `curp_UNIQUE` (`curp` ASC) VISIBLE,
+  UNIQUE INDEX `numeroEmp_UNIQUE` (`numeroEmp` ASC) VISIBLE);
+
+
+
+CREATE TABLE `estudiante` (
+  `idestudiante` INT NOT NULL,
+  `nombre` VARCHAR(45) NULL,
+  `apellidos` VARCHAR(45) NULL,
+  `fechaN` DATE NULL,
+  `curp` VARCHAR(45) NULL,
+  `matricula` VARCHAR(45) NULL,
+  PRIMARY KEY (`idestudiante`),
+  UNIQUE INDEX `curp_UNIQUE` (`curp` ASC) VISIBLE,
+  UNIQUE INDEX `matricula_UNIQUE` (`matricula` ASC) VISIBLE);
+
+CREATE TABLE `recu2`.`evaluacion` (
+  `idevaluacion` INT NOT NULL,
+  `nombreMateria` VARCHAR(45) NULL,
+  `calificacion` INT NULL,
+  `alumno` INT NULL,
+  `docente` INT NULL,
+  PRIMARY KEY (`idevaluacion`));
+
+
+
+ALTER TABLE `evaluacion` 
+ADD INDEX `idalumno_idx` (`alumno` ASC) VISIBLE,
+ADD INDEX `idmaestro_idx` (`docente` ASC) VISIBLE;
+;
+ALTER TABLE `evaluacion` 
+ADD CONSTRAINT `idalumno`
+  FOREIGN KEY (`alumno`)
+  REFERENCES `recu2`.`estudiante` (`idestudiante`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION,
+ADD CONSTRAINT `idmaestro`
+  FOREIGN KEY (`docente`)
+  REFERENCES `recu2`.`docente` (`iddocente`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+ALTER TABLE `evaluacion` 
+CHANGE COLUMN `idevaluacion` `idevaluacion` INT(11) NOT NULL AUTO_INCREMENT ;
+
+
+
+
+
+
+
+
